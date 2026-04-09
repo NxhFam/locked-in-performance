@@ -100,7 +100,7 @@ export default function BookingFormSection() {
     setErrorMsg("");
 
     const message = formatSmsMessage(data);
-    const shopPhone = "17178809452";
+    const shopPhone = "17178813494";
 
     try {
       // Open the native SMS app with the shop's number and pre-typed message
@@ -114,7 +114,7 @@ export default function BookingFormSection() {
       }, 800);
     } catch (err: unknown) {
       setSubmitStatus("error");
-      setErrorMsg("Could not open SMS app. Please text us directly at (717) 880-9452.");
+      setErrorMsg("Could not open SMS app. Please text us directly at (717) 881-3494.");
     }
   };
 

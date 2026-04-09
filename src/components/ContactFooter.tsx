@@ -45,7 +45,7 @@ export default function ContactFooter() {
                 textShadow: "none",
               }}
             >
-              717-880-9452
+              717-881-3494
             </div>
             <p className="font-space text-xs text-gray-600 uppercase tracking-widest mt-0.5">
               Garage Builds / Limited Mobile
@@ -55,7 +55,7 @@ export default function ContactFooter() {
           {/* CTA links */}
           <div className="flex items-center gap-3">
             <a
-              href="sms:7178809452"
+              href="sms:7178813494"
               className="flex items-center gap-2 px-5 py-2.5 rounded-sm font-space text-sm font-semibold uppercase tracking-wider transition-all duration-200 hover:scale-105"
               style={{
                 background: "rgba(232, 97, 10, 0.15)",
@@ -79,7 +79,7 @@ export default function ContactFooter() {
               Text Us
             </a>
             <a
-              href="tel:7178809452"
+              href="tel:7178813494"
               className="flex items-center gap-2 px-5 py-2.5 rounded-sm font-space text-sm font-semibold uppercase tracking-wider transition-all duration-200 hover:scale-105"
               style={{
                 background: "rgba(255, 255, 255, 0.04)",
