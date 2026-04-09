@@ -33,7 +33,14 @@ interface InputFieldProps {
   inView?: boolean;
 }
 
-function InputField({ label, required, error, children, delay = 0, inView = true }: InputFieldProps) {
+function InputField({
+  label,
+  required,
+  error,
+  children,
+  delay = 0,
+  inView = true,
+}: InputFieldProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -72,7 +79,9 @@ const inputFocusClass = "focus:border-orange-500/60 focus:bg-white/[0.06]";
 export default function BookingFormSection() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
-  const [submitStatus, setSubmitStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [submitStatus, setSubmitStatus] = useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
   const {
@@ -86,7 +95,7 @@ export default function BookingFormSection() {
 
   const formatSmsMessage = (data: FormData) => {
     const vehicle = `${data.vehicleYear} ${data.vehicleMake} ${data.vehicleModel}${data.vehicleTrim ? ` ${data.vehicleTrim}` : ""}`;
-    return `🔧 NEW BOOKING REQUEST — Locked In Performance\n\nName: ${data.fullName}\nPhone: ${data.phone}\nVehicle: ${vehicle}\nService: ${data.service}${data.notes ? `\nNotes: ${data.notes}` : ""}\n\nReply /schedule [mm/dd/yy hh:mm] to confirm.`;
+    return `🔧 NEW BOOKING REQUEST — Locked In Performance\n\nName: ${data.fullName}\nPhone: ${data.phone}\nVehicle: ${vehicle}\nService: ${data.service}${data.notes ? `\nNotes: ${data.notes}` : ""}`;
   };
 
   const onSubmit = (data: FormData) => {
@@ -108,7 +117,9 @@ export default function BookingFormSection() {
       }, 800);
     } catch (err: unknown) {
       setSubmitStatus("error");
-      setErrorMsg("Could not open SMS app. Please text us directly at (717) 881-3494.");
+      setErrorMsg(
+        "Could not open SMS app. Please text us directly at (717) 881-3494.",
+      );
     }
   };
 
@@ -158,7 +169,8 @@ export default function BookingFormSection() {
           <h2
             className="font-oswald text-4xl md:text-5xl font-black uppercase mb-4"
             style={{
-              background: "linear-gradient(180deg, #ffffff 0%, #C8C8D0 50%, #a0a0b0 100%)",
+              background:
+                "linear-gradient(180deg, #ffffff 0%, #C8C8D0 50%, #a0a0b0 100%)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundClip: "text",
@@ -225,7 +237,8 @@ export default function BookingFormSection() {
                   You're Locked In
                 </h3>
                 <p className="font-space text-gray-400 text-sm md:text-base leading-relaxed max-w-sm mx-auto">
-                  Your request has been sent! Locked In Performance will reach out to confirm your appointment.
+                  Your request has been sent! Locked In Performance will reach
+                  out to confirm your appointment.
                 </p>
                 <button
                   onClick={() => setSubmitStatus("idle")}
@@ -425,7 +438,8 @@ export default function BookingFormSection() {
                         Failed to send your request
                       </p>
                       <p className="font-space text-red-400/70 text-xs mt-0.5">
-                        {errorMsg || "Please try again or call/text us at 717-880-9452"}
+                        {errorMsg ||
+                          "Please try again or call/text us at 717-880-9452"}
                       </p>
                     </div>
                   </motion.div>
