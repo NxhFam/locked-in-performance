@@ -95,58 +95,26 @@ export default function BookingFormSection() {
     return `🔧 NEW BOOKING REQUEST — Locked In Performance\n\nName: ${data.fullName}\nPhone: ${data.phone}\nVehicle: ${vehicle}\nService: ${data.service}${data.notes ? `\nNotes: ${data.notes}` : ""}\n\nReply /schedule [mm/dd/yy hh:mm] to confirm.`;
   };
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = (data: FormData) => {
     setSubmitStatus("loading");
     setErrorMsg("");
 
     const message = formatSmsMessage(data);
+    const shopPhone = "17178809452";
 
-    // Using CallMeBot or Twilio — check for env variables
-    const twilioSid = import.meta.env.VITE_TWILIO_ACCOUNT_SID;
-    const twilioToken = import.meta.env.VITE_TWILIO_AUTH_TOKEN;
-    const twilioFrom = import.meta.env.VITE_TWILIO_FROM_NUMBER;
-    const shopPhone = "+17178809452";
+    try {
+      // Open the native SMS app with the shop's number and pre-typed message
+      const smsUri = `sms:${shopPhone}?body=${encodeURIComponent(message)}`;
+      window.open(smsUri, "_self");
 
-    if (twilioSid && twilioToken && twilioFrom) {
-      try {
-        const body = new URLSearchParams({
-          To: shopPhone,
-          From: twilioFrom,
-          Body: message,
-        });
-
-        const response = await fetch(
-          `https://api.twilio.com/2010-04-01/Accounts/${twilioSid}/Messages.json`,
-          {
-            method: "POST",
-            headers: {
-              Authorization: `Basic ${btoa(`${twilioSid}:${twilioToken}`)}`,
-              "Content-Type": "application/x-www-form-urlencoded",
-            },
-            body: body.toString(),
-          }
-        );
-
-        if (!response.ok) {
-          const errData = await response.json();
-          throw new Error(errData.message || "SMS failed to send");
-        }
-
+      // Show success state after a short delay
+      setTimeout(() => {
         setSubmitStatus("success");
         reset();
-      } catch (err: unknown) {
-        setSubmitStatus("error");
-        setErrorMsg(
-          err instanceof Error ? err.message : "Failed to send. Please try again or call/text us directly."
-        );
-      }
-    } else {
-      // No SMS API configured — simulate success and log for demo
-      console.log("📱 SMS would be sent:", message);
-      // Simulate network delay for demo
-      await new Promise((r) => setTimeout(r, 1500));
-      setSubmitStatus("success");
-      reset();
+      }, 800);
+    } catch (err: unknown) {
+      setSubmitStatus("error");
+      setErrorMsg("Could not open SMS app. Please text us directly at (717) 880-9452.");
     }
   };
 
