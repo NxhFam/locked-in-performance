@@ -3,10 +3,7 @@ import { motion, useInView, AnimatePresence } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Flame, CheckCircle, AlertCircle, Loader2, ChevronDown } from "lucide-react";
-import { SERVICES } from "./ServicesSection";
-
-const SERVICE_OPTIONS = SERVICES.map((s) => s.name);
+import { Flame, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
 
 const schema = z.object({
   fullName: z.string().min(2, "Full name is required"),
@@ -21,7 +18,7 @@ const schema = z.object({
   vehicleMake: z.string().min(2, "Make is required"),
   vehicleModel: z.string().min(1, "Model is required"),
   vehicleTrim: z.string().optional(),
-  service: z.string().min(1, "Please select a service"),
+  service: z.string().min(1, "Please describe the service(s) you need"),
   notes: z.string().optional(),
 });
 
@@ -81,14 +78,11 @@ export default function BookingFormSection() {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
     reset,
   } = useForm<FormData>({
     resolver: zodResolver(schema),
   });
-
-  const selectedService = watch("service");
 
   const formatSmsMessage = (data: FormData) => {
     const vehicle = `${data.vehicleYear} ${data.vehicleMake} ${data.vehicleModel}${data.vehicleTrim ? ` ${data.vehicleTrim}` : ""}`;
@@ -377,7 +371,7 @@ export default function BookingFormSection() {
                   </div>
                 </motion.div>
 
-                {/* Service dropdown */}
+                {/* Service Request text field */}
                 <InputField
                   label="Service Request"
                   required
@@ -385,36 +379,18 @@ export default function BookingFormSection() {
                   delay={0.2}
                   inView={inView}
                 >
-                  <div className="relative">
-                    <select
-                      {...register("service")}
-                      className={`${inputClass} ${inputFocusClass} appearance-none cursor-pointer pr-10`}
-                      style={{
-                        ...inputStyle,
-                        borderColor: errors.service
-                          ? "rgba(239, 68, 68, 0.5)"
-                          : undefined,
-                        color: selectedService ? "#e2e8f0" : "#4b5563",
-                      }}
-                    >
-                      <option value="" style={{ background: "#1a1208", color: "#9ca3af" }}>
-                        Select a service...
-                      </option>
-                      {SERVICE_OPTIONS.map((svc) => (
-                        <option
-                          key={svc}
-                          value={svc}
-                          style={{ background: "#1a1208", color: "#e2e8f0" }}
-                        >
-                          {svc}
-                        </option>
-                      ))}
-                    </select>
-                    <ChevronDown
-                      className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none"
-                      style={{ color: "#E8610A" }}
-                    />
-                  </div>
+                  <textarea
+                    {...register("service")}
+                    rows={3}
+                    placeholder="Describe everything you need (e.g. oil change, brake inspection, tire rotation...)"
+                    className={`${inputClass} ${inputFocusClass} resize-none`}
+                    style={{
+                      ...inputStyle,
+                      borderColor: errors.service
+                        ? "rgba(239, 68, 68, 0.5)"
+                        : undefined,
+                    }}
+                  />
                 </InputField>
 
                 {/* Notes */}
