@@ -8,8 +8,9 @@
     "build": "tsc ; vite build",
     "build-no-errors": "tsc ; vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview",
-    "types:supabase": "npx supabase gen types typescript --project-id $SUPABASE_PROJECT_ID > src/types/supabase.ts"
+    "preview": "npm run build && wrangler dev",
+    "types:supabase": "npx supabase gen types typescript --project-id $SUPABASE_PROJECT_ID > src/types/supabase.ts",
+    "deploy": "npm run build && wrangler deploy"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -66,6 +67,7 @@
     "zod": "^3.25.76"
   },
   "devDependencies": {
+    "@cloudflare/vite-plugin": "^1.31.2",
     "@types/node": "^20.14.2",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
@@ -74,6 +76,7 @@
     "postcss": "^8.4.38",
     "tailwindcss": "3.4.1",
     "typescript": "^5.8.2",
-    "vite": "^7.1.12"
+    "vite": "^7.1.12",
+    "wrangler": "^4.81.1"
   }
 }
